@@ -1,6 +1,9 @@
 package com.knrmalhotra.cryptomessage;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -28,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
   private byte[] encryptedMessage;
   private KeyPairGenerator mKeyPairGenerator;
   private KeyPair mKeyPair;
+  private Context mContext = this;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -38,8 +42,6 @@ public class MainActivity extends AppCompatActivity {
 
     mActionBar = getSupportActionBar();
     if (mActionBar != null) {
-      mActionBar.setDisplayShowHomeEnabled(true);
-      mActionBar.setDisplayHomeAsUpEnabled(true);
       mActionBar.setDisplayShowTitleEnabled(false);
     }
 
@@ -59,8 +61,21 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
           e.printStackTrace();
         }
+        if (textToBeDisplayed.length() == 0){
+          AlertDialog.Builder mBuilder = new AlertDialog.Builder(mContext);
+          mBuilder.setMessage("Please Enter A Valid String");
+          mBuilder.setNeutralButton("Close", new DialogInterface.OnClickListener() {
+            @Override public void onClick(DialogInterface dialog, int which) {
+              dialog.dismiss();
+            }
+          });
 
+          AlertDialog mAlertDialog = mBuilder.create();
+          mAlertDialog.show();
+        }
         mTextView1.setText(textToBeDisplayed);
+
+
       }
     });
 
